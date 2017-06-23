@@ -22,19 +22,19 @@ import java.util.Random;
 
 public class GallowsActivity extends AppCompatActivity {
 
-    private String word;
-    private int numberword;
-    private String theme;
-    private int lifes = 7;
+    private String word;  //загаданное слово
+    private int numberword; //порядковый номер загаданного слова в файле
+    private String theme;  //тема загаданного слова
+    private int lifes = 7;  //количество жизней -- менять нельзя
 
-    private static final String tag = "tagGallows";
+    private static final String tag = "tagGallows";  //тег для логирования
     String[] data = {"Й", "Ц", "У", "К", "Е", "Н", "Г", "Ш", "Щ", "З", "Х",
             "Ф", "Ы", "В", "А", "П", "Р", "О", "Л", "Д", "Ж", "Э",
-            "Я", "Ч", "С", "М", "И", "Т", "Ь", "Б", "Ю", "Ъ", "Ё"};
-    boolean[] statusarr;
-    GridView gvMain;
-    String letter = new String();
-    ArrayAdapter<String> adapter;
+            "Я", "Ч", "С", "М", "И", "Т", "Ь", "Б", "Ю", "Ъ", "Ё"};  //для GridView (клавиатуры)
+    boolean[] statusarr;  //массив, который определяет, какие буквы отгаданы, а какие нет
+    GridView gvMain;  //клавиатура
+    String letter = "";  //введённая буква
+    ArrayAdapter<String> adapter;  //адаптер
 
 
     @Override
@@ -42,10 +42,10 @@ public class GallowsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(tag, "created");
         setContentView(R.layout.activity_gallows);
-        RelativeLayout relativelayout=(RelativeLayout) findViewById(R.id.mainrl);
+        RelativeLayout relativelayout=(RelativeLayout) findViewById(R.id.mainrl); //задний цвет белый
         relativelayout.setBackgroundColor(Color.WHITE);
         Button buttonMenu = (Button) findViewById(R.id.buttonMenu);
-        View.OnClickListener listener2 = new View.OnClickListener() {
+        View.OnClickListener listener2 = new View.OnClickListener() {  //кнопка меню
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GallowsActivity.this, MainActivity.class);
@@ -64,7 +64,7 @@ public class GallowsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-        buttonRestart.setOnClickListener(listener3);
+        buttonRestart.setOnClickListener(listener3);   //листенер для рестарта
         try {
             word = wordChoose();
             theme = themeChoose(numberword);
@@ -86,7 +86,7 @@ public class GallowsActivity extends AppCompatActivity {
 
 
 
-        adapter = new ArrayAdapter<String>(this, R.layout.item, R.id.tvText, data);
+        adapter = new ArrayAdapter<>(this, R.layout.item, R.id.tvText, data);
         gvMain = (GridView) findViewById(R.id.gvMain);
         gvMain.setAdapter(adapter);
         adjustGridView();
@@ -99,7 +99,7 @@ public class GallowsActivity extends AppCompatActivity {
                 //Log.d(tag, letter);
                 if (word.contains(letter)) {
                     TextView textViewWord = (TextView) findViewById(R.id.textViewWord);
-                    String vspom = new String();
+                    String vspom = "";
                     for (int i = 0; i < word.length(); i++)
                         if (word.substring(i, i + 1).equals(letter))
                             statusarr[i] = true;
@@ -141,7 +141,7 @@ public class GallowsActivity extends AppCompatActivity {
                 if (lifes == 0) {
                     textViewTheme.setText("Вы проиграли!");
                     gvMain.setVisibility(View.INVISIBLE);
-                    String word1 = new String();
+                    String word1 = "";
                     for (int i = 0; i < word.length(); i++)
                         word1 += word.substring(i, i + 1) + " ";
                     buttonRestart.setVisibility(View.VISIBLE);
